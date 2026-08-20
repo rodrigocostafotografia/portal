@@ -185,6 +185,47 @@ body::before {
 #dashboardPage { display:none; }
 .main-wrap { max-width:1200px; margin:0 auto; padding:32px 24px 120px; position:relative; z-index:1; }
 
+/* ===== PÁGINA DO CLIENTE ===== */
+.client-page-wrap {
+  width:100%;
+}
+.client-page-head {
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  margin-bottom:16px; flex-wrap:wrap;
+}
+.client-page-title {
+  font-family:var(--font-head); font-size:20px; font-weight:700;
+  display:flex; align-items:center; gap:9px;
+}
+.client-page-sub { color:var(--muted); font-size:13px; margin-top:3px; }
+.client-page-actions { display:flex; gap:8px; flex-wrap:wrap; }
+.client-page-btn {
+  display:inline-flex; align-items:center; justify-content:center; gap:7px;
+  padding:9px 14px; border-radius:9px; cursor:pointer;
+  font-family:var(--font-body); font-size:12.5px; font-weight:600;
+  border:1px solid var(--border2); background:rgba(255,255,255,0.04); color:var(--text);
+  transition:all .2s; text-decoration:none;
+}
+.client-page-btn:hover { border-color:rgba(240,180,41,.3); background:rgba(240,180,41,.07); color:var(--primary); }
+.client-page-btn.primary { background:rgba(240,180,41,.12); border-color:rgba(240,180,41,.28); color:var(--primary); }
+.client-page-frame {
+  width:100%; height:calc(100vh - 230px); min-height:520px;
+  border:1px solid rgba(255,255,255,.08); border-radius:16px;
+  background:#fff; display:block; box-shadow:0 12px 40px rgba(0,0,0,.35);
+}
+.client-page-empty {
+  min-height:420px; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; padding:40px; border:1px dashed rgba(255,255,255,.1); border-radius:16px;
+  background:rgba(255,255,255,.015);
+}
+.client-page-empty i { font-size:42px; color:var(--muted); opacity:.45; margin-bottom:15px; }
+.client-page-empty strong { font-family:var(--font-head); font-size:17px; margin-bottom:6px; }
+.client-page-empty span { color:var(--muted); font-size:13px; max-width:440px; }
+@media(max-width:700px){
+  .client-page-frame { height:calc(100vh - 250px); min-height:420px; }
+  .client-page-head { align-items:flex-start; }
+}
+
 /* ===== NAV TABS ===== */
 .nav-tabs {
   display:flex; gap:4px; margin-bottom:36px;
@@ -1183,6 +1224,7 @@ body::before {
       <button class="nav-tab" onclick="showTab('prazos')"><i class="fas fa-calendar"></i> Prazos</button>
       <button class="nav-tab" onclick="showTab('alertas')" style="display:none;"><i class="fas fa-bell"></i> Alertas</button>
       <button class="nav-tab" onclick="showTab('links')"><i class="fas fa-link"></i> Links</button>
+      <button class="nav-tab" id="navClientPage" onclick="showTab('pagina')" style="display:none;"><i class="fas fa-file-code"></i> Página</button>
       <button class="nav-tab" onclick="showTab('marketplace')"><i class="fas fa-store"></i> Vitrine</button>
     </div>
 
@@ -1355,6 +1397,37 @@ body::before {
       <h2 class="section-title">Links Úteis</h2>
       <p class="section-sub">Acesse materiais e recursos compartilhados</p>
       <div id="linkList"><div class="empty-state"><i class="fas fa-link"></i><p>Nenhum link cadastrado</p></div></div>
+    </div>
+
+    <!-- === PÁGINA DO CLIENTE === -->
+    <div class="section" id="sec-pagina">
+      <div class="glass-card client-page-wrap">
+        <div class="client-page-head">
+          <div>
+            <div class="client-page-title"><i class="fas fa-file-code" style="color:var(--primary);"></i> Página</div>
+            <div class="client-page-sub">Conteúdo personalizado disponibilizado para você.</div>
+          </div>
+          <div class="client-page-actions">
+            <button type="button" class="client-page-btn" onclick="reloadClientPage()" id="clientPageReloadBtn"><i class="fas fa-sync-alt"></i> Atualizar</button>
+            <button type="button" class="client-page-btn primary" onclick="openClientPageNewTab()" id="clientPageOpenBtn"><i class="fas fa-external-link-alt"></i> Abrir em nova aba</button>
+          </div>
+        </div>
+
+        <div id="clientPageEmpty" class="client-page-empty" style="display:none;">
+          <i class="fas fa-file-circle-question"></i>
+          <strong>Nenhuma página disponível</strong>
+          <span>Quando uma página for vinculada ao seu cadastro, ela aparecerá automaticamente nesta aba.</span>
+        </div>
+
+        <iframe
+          id="clientPageFrame"
+          class="client-page-frame"
+          title="Página do cliente"
+          loading="eager"
+          referrerpolicy="strict-origin-when-cross-origin"
+          sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-downloads"
+          style="display:none;"></iframe>
+      </div>
     </div>
 
     <!-- === MARKETPLACE === -->
@@ -1549,6 +1622,11 @@ function handleLogout() {
   document.getElementById('dashboardPage').style.display = 'none';
   document.getElementById('cpfInput').value = '';
   document.getElementById('loginMsg').style.display = 'none';
+  const pageFrame = document.getElementById('clientPageFrame');
+  if (pageFrame) pageFrame.src = 'about:blank';
+  revokeClientPageBlob();
+  const pageNav = document.getElementById('navClientPage');
+  if (pageNav) pageNav.style.display = 'none';
   showAuthView('login');
 }
 
@@ -1689,6 +1767,7 @@ async function loadAllData() {
   renderAlerts();
   renderLinks();
   renderHistorico();
+  renderClientPage();
   await mkpLoad();
 }
 
@@ -2309,13 +2388,175 @@ function renderLinks() {
   `).join('');
 }
 
+// ==================== PÁGINA DO CLIENTE ====================
+// A página HTML é baixada do Supabase Storage como Blob e renderizada
+// localmente pelo navegador. Isso evita que o Storage entregue o HTML
+// como texto/código-fonte dentro do iframe.
+let clientPageBlobUrl = null;
+let clientPageLastPath = null;
+
+function clientPageStoragePath() {
+  if (!currentClient || !currentClient.pagina) return null;
+
+  // O ADM grava as páginas no caminho padrão abaixo.
+  const fixedPath = `clientes/${currentClient.id}/pagina.html`;
+
+  // Se a coluna pagina já contiver uma URL do Storage, tenta extrair o path.
+  try {
+    const raw = String(currentClient.pagina).trim();
+    if (!raw) return fixedPath;
+    const u = new URL(raw, window.location.href);
+    const marker = '/storage/v1/object/';
+    const idx = u.pathname.indexOf(marker);
+    if (idx >= 0) {
+      let tail = u.pathname.slice(idx + marker.length);
+      tail = tail.replace(/^public\//, '').replace(/^sign\//, '').replace(/^authenticated\//, '');
+      const bucket = 'paginas-clientes/';
+      const bi = tail.indexOf(bucket);
+      if (bi >= 0) return decodeURIComponent(tail.slice(bi + bucket.length));
+    }
+  } catch (_) {}
+
+  return fixedPath;
+}
+
+function clientPageBaseUrl() {
+  const path = clientPageStoragePath();
+  if (!path || !db) return null;
+  const marker = '/';
+  const idx = path.lastIndexOf(marker);
+  const dir = idx >= 0 ? path.slice(0, idx + 1) : '';
+  const { data } = db.storage.from('paginas-clientes').getPublicUrl(dir + 'pagina.html');
+  if (!data || !data.publicUrl) return null;
+  return data.publicUrl.replace(/pagina\.html(?:\?.*)?$/i, '');
+}
+
+function revokeClientPageBlob() {
+  if (clientPageBlobUrl) {
+    try { URL.revokeObjectURL(clientPageBlobUrl); } catch (_) {}
+    clientPageBlobUrl = null;
+  }
+}
+
+async function loadClientPageBlob() {
+  if (!currentClient || !currentClient.pagina) return null;
+  const path = clientPageStoragePath();
+  if (!path) throw new Error('Caminho da página não encontrado.');
+
+  const { data, error } = await db.storage
+    .from('paginas-clientes')
+    .download(path);
+
+  if (error) throw error;
+  if (!data) throw new Error('O arquivo HTML não foi encontrado no Storage.');
+
+  // Lê como texto para inserir <base> quando possível. Isso permite que
+  // links relativos do HTML apontem para a pasta original do arquivo.
+  let html = await data.text();
+  const baseUrl = clientPageBaseUrl();
+  if (baseUrl && /<head\b[^>]*>/i.test(html) && !/<base\b[^>]*>/i.test(html)) {
+    html = html.replace(/<head\b[^>]*>/i, match => `${match}\n<base href="${baseUrl.replace(/"/g, '&quot;')}">`);
+  }
+
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  revokeClientPageBlob();
+  clientPageBlobUrl = URL.createObjectURL(blob);
+  clientPageLastPath = path;
+  return clientPageBlobUrl;
+}
+
+function renderClientPageLoading(message='Carregando página...') {
+  const frame = document.getElementById('clientPageFrame');
+  const empty = document.getElementById('clientPageEmpty');
+  if (frame) frame.style.display = 'none';
+  if (empty) {
+    empty.style.display = 'flex';
+    empty.innerHTML = `<i class="fas fa-spinner fa-spin"></i><strong>${message}</strong><span>A página está sendo carregada do armazenamento.</span>`;
+  }
+}
+
+function renderClientPageError(message) {
+  const frame = document.getElementById('clientPageFrame');
+  const empty = document.getElementById('clientPageEmpty');
+  if (frame) { frame.src = 'about:blank'; frame.style.display = 'none'; }
+  if (empty) {
+    empty.style.display = 'flex';
+    empty.innerHTML = `<i class="fas fa-exclamation-triangle" style="color:var(--danger);"></i><strong>Não foi possível carregar a página</strong><span>${esc(message || 'Erro desconhecido.')}</span>`;
+  }
+}
+
+async function renderClientPage() {
+  const nav = document.getElementById('navClientPage');
+  const frame = document.getElementById('clientPageFrame');
+  const empty = document.getElementById('clientPageEmpty');
+  const openBtn = document.getElementById('clientPageOpenBtn');
+  const reloadBtn = document.getElementById('clientPageReloadBtn');
+  const url = currentClient && currentClient.pagina ? String(currentClient.pagina).trim() : '';
+
+  if (!nav || !frame || !empty) return;
+
+  if (!url) {
+    nav.style.display = 'none';
+    frame.src = 'about:blank';
+    frame.style.display = 'none';
+    empty.style.display = 'flex';
+    if (openBtn) openBtn.style.display = 'none';
+    if (reloadBtn) reloadBtn.style.display = 'none';
+    revokeClientPageBlob();
+    return;
+  }
+
+  nav.style.display = 'flex';
+  if (openBtn) openBtn.style.display = 'inline-flex';
+  if (reloadBtn) reloadBtn.style.display = 'inline-flex';
+  renderClientPageLoading();
+
+  try {
+    const blobUrl = await loadClientPageBlob();
+    frame.src = blobUrl;
+    frame.style.display = 'block';
+    empty.style.display = 'none';
+  } catch (e) {
+    console.error('Erro ao renderizar página do cliente:', e);
+    renderClientPageError(e && e.message ? e.message : 'Erro ao baixar a página HTML.');
+  }
+}
+
+async function reloadClientPage() {
+  await renderClientPage();
+}
+
+async function openClientPageNewTab() {
+  if (!currentClient || !currentClient.pagina) return;
+  try {
+    const blobUrl = await loadClientPageBlob();
+    const w = window.open(blobUrl, '_blank', 'noopener,noreferrer');
+    if (!w) return;
+    // Mantém o Blob disponível tempo suficiente para a nova aba iniciar o carregamento.
+    setTimeout(() => { try { URL.revokeObjectURL(blobUrl); } catch (_) {} }, 120000);
+  } catch (e) {
+    console.error('Erro ao abrir página em nova aba:', e);
+    if (typeof showToast === 'function') showToast('Não foi possível abrir a página.', 'error');
+  }
+}
+
 // ==================== TABS ====================
 function showTab(name) {
+  const target = document.getElementById('sec-'+name);
+  if (!target) return;
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
-  document.getElementById('sec-'+name).classList.add('active');
-  event.currentTarget.classList.add('active');
+  target.classList.add('active');
+
+  const clicked = (typeof event !== 'undefined' && event && event.currentTarget) ? event.currentTarget : null;
+  if (clicked) clicked.classList.add('active');
+  else {
+    const tab = document.querySelector(`.nav-tab[onclick="showTab('${name}')"]`);
+    if (tab) tab.classList.add('active');
+  }
+
   if(name==='marketplace' && mkpAllProducts.length===0) mkpLoad();
+  if(name==='pagina') renderClientPage();
 }
 
 // ==================== MARKETPLACE LOAD ====================
