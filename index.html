@@ -1145,6 +1145,87 @@ body::before {
   .fixed-actions { width:100%; }
   .fixed-btn-wa, .fixed-btn-pix { flex:1; justify-content:center; }
 }
+
+
+/* ===== ENVIO DE ARQUIVOS ===== */
+.nav-tab-upload {
+  color: var(--primary);
+  background: rgba(240,180,41,0.06);
+  border: 1px solid rgba(240,180,41,0.12);
+}
+.nav-tab-upload:hover { color: var(--primary); background: rgba(240,180,41,0.12); }
+.upload-modal-box { max-width: 620px; }
+.upload-modal-head { padding: 24px 26px 0; }
+.upload-modal-head .modal-title { margin-bottom: 5px; padding-right: 34px; }
+.upload-modal-sub { color: var(--muted); font-size: 13px; line-height: 1.55; }
+.upload-dropzone {
+  margin: 20px 26px 14px;
+  border: 1px dashed rgba(240,180,41,.32);
+  background: linear-gradient(135deg, rgba(240,180,41,.07), rgba(240,180,41,.02));
+  border-radius: 16px;
+  min-height: 150px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; padding:22px; cursor:pointer;
+  transition: border-color .2s, background .2s, transform .2s, box-shadow .2s;
+}
+.upload-dropzone:hover,
+.upload-dropzone.dragover {
+  border-color: rgba(240,180,41,.65);
+  background: rgba(240,180,41,.1);
+  box-shadow: 0 0 24px rgba(240,180,41,.08);
+  transform: translateY(-1px);
+}
+.upload-dropzone i { font-size: 30px; color: var(--primary); margin-bottom: 10px; }
+.upload-dropzone strong { font-family:var(--font-head); font-size:15px; }
+.upload-dropzone span { color:var(--muted); font-size:12px; margin-top:5px; }
+.upload-file-input { display:none; }
+.upload-selected { padding: 0 26px; }
+.upload-selected-head { display:flex; justify-content:space-between; align-items:center; margin: 10px 0 9px; }
+.upload-selected-title { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.7px; font-weight:700; }
+.upload-count { font-size:11px; color:var(--primary); }
+.upload-file-list { display:flex; flex-direction:column; gap:8px; max-height:220px; overflow:auto; }
+.upload-file-item {
+  display:flex; align-items:center; gap:10px; padding:10px 11px;
+  background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.07); border-radius:11px;
+}
+.upload-file-icon {
+  width:34px; height:34px; border-radius:9px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(240,180,41,.1); color:var(--primary); font-size:13px;
+}
+.upload-file-info { flex:1; min-width:0; }
+.upload-file-name { font-size:12.5px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.upload-file-size { color:var(--muted); font-size:10.5px; margin-top:2px; }
+.upload-file-remove {
+  width:28px; height:28px; border:0; border-radius:8px; background:rgba(224,82,82,.07); color:var(--danger);
+  cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.upload-file-remove:hover { background:rgba(224,82,82,.14); }
+.upload-empty-list { padding: 8px 0 2px; color:var(--muted); font-size:12px; text-align:center; }
+.upload-footer { padding: 18px 26px 24px; display:flex; gap:10px; justify-content:flex-end; align-items:center; flex-wrap:wrap; }
+.upload-hint { margin-right:auto; color:var(--muted); font-size:10.5px; line-height:1.45; max-width:270px; }
+.upload-send-btn { width:auto; min-width:170px; display:flex; align-items:center; justify-content:center; gap:8px; }
+.upload-status { margin:0 26px; padding:11px 13px; border-radius:10px; font-size:12px; display:none; }
+.upload-status.error { display:block; background:rgba(224,82,82,.08); border:1px solid rgba(224,82,82,.22); color:#e88; }
+.upload-status.success { display:block; background:rgba(76,175,130,.08); border:1px solid rgba(76,175,130,.22); color:var(--green); }
+.upload-sent { padding: 0 26px 8px; }
+.upload-sent-title { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.7px; font-weight:700; margin:18px 0 9px; }
+.upload-sent-list { display:flex; flex-direction:column; gap:7px; max-height:150px; overflow:auto; }
+.upload-sent-item { display:flex; gap:10px; align-items:center; padding:9px 10px; border-radius:10px; background:rgba(76,175,130,.04); border:1px solid rgba(76,175,130,.12); }
+.upload-sent-item i { color:var(--green); font-size:13px; }
+.upload-sent-main { flex:1; min-width:0; }
+.upload-sent-name { font-size:12px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.upload-sent-meta { font-size:10px; color:var(--muted); margin-top:2px; }
+@media(max-width:640px){
+  .upload-modal-box { max-width:100%; }
+  .upload-modal-head, .upload-selected, .upload-sent { padding-left:18px; padding-right:18px; }
+  .upload-dropzone { margin-left:18px; margin-right:18px; }
+  .upload-footer { padding-left:18px; padding-right:18px; }
+  .upload-status { margin-left:18px; margin-right:18px; }
+  .upload-hint { width:100%; max-width:none; margin-right:0; }
+  .upload-send-btn { width:100%; }
+}
+
 </style>
 </head>
 <body>
@@ -1224,6 +1305,7 @@ body::before {
       <button class="nav-tab" onclick="showTab('prazos')"><i class="fas fa-calendar"></i> Prazos</button>
       <button class="nav-tab" onclick="showTab('alertas')" style="display:none;"><i class="fas fa-bell"></i> Alertas</button>
       <button class="nav-tab" onclick="showTab('links')"><i class="fas fa-link"></i> Links</button>
+      <button class="nav-tab nav-tab-upload" type="button" onclick="openUploadModal()"><i class="fas fa-cloud-arrow-up"></i> Enviar arquivos</button>
       <button class="nav-tab" id="navClientPage" onclick="showTab('pagina')" style="display:none;"><i class="fas fa-file-code"></i> Página</button>
       <button class="nav-tab" onclick="showTab('marketplace')"><i class="fas fa-store"></i> Vitrine</button>
     </div>
@@ -1455,6 +1537,50 @@ body::before {
   </div>
 </div>
 
+<!-- ===== MODAL: ENVIO DE ARQUIVOS ===== -->
+<div class="modal-overlay" id="uploadModal" onclick="uploadModalOutside(event)">
+  <div class="modal-box upload-modal-box" id="uploadModalBox">
+    <button class="modal-close" type="button" onclick="closeUploadModal()"><i class="fas fa-times"></i></button>
+
+    <div class="upload-modal-head">
+      <div class="modal-title"><i class="fas fa-cloud-arrow-up" style="color:var(--primary); margin-right:7px;"></i>Enviar arquivos</div>
+      <div class="upload-modal-sub">Envie documentos, fotos ou outros arquivos diretamente para o seu cadastro.</div>
+    </div>
+
+    <label class="upload-dropzone" id="uploadDropzone" for="uploadFileInput">
+      <i class="fas fa-cloud-arrow-up"></i>
+      <strong>Arraste os arquivos aqui</strong>
+      <span>ou clique para selecionar • até 10 arquivos por envio</span>
+    </label>
+    <input class="upload-file-input" id="uploadFileInput" type="file" multiple
+      accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.zip,.rar,.7z,.mp4,.mov,.avi,.mkv,.psd,.ai">
+
+    <div class="upload-selected">
+      <div class="upload-selected-head">
+        <span class="upload-selected-title">Arquivos selecionados</span>
+        <span class="upload-count" id="uploadCount">0 arquivos</span>
+      </div>
+      <div class="upload-file-list" id="uploadFileList">
+        <div class="upload-empty-list">Nenhum arquivo selecionado.</div>
+      </div>
+    </div>
+
+    <div class="upload-status" id="uploadStatus"></div>
+
+    <div class="upload-footer">
+      <div class="upload-hint">Os arquivos são vinculados ao seu cadastro. Limite configurado no portal: 50 MB por arquivo.</div>
+      <button type="button" class="btn-primary upload-send-btn" id="uploadSendBtn" onclick="sendClientFiles()">
+        <i class="fas fa-paper-plane"></i> Enviar arquivos
+      </button>
+    </div>
+
+    <div class="upload-sent" id="uploadSentWrap" style="display:none;">
+      <div class="upload-sent-title">Últimos arquivos enviados</div>
+      <div class="upload-sent-list" id="uploadSentList"></div>
+    </div>
+  </div>
+</div>
+
 <!-- ===== MODAL PRODUTO ===== -->
 <div class="modal-overlay" id="prodModal" onclick="modalOutside(event)">
   <div class="modal-box" id="prodModalBox">
@@ -1563,6 +1689,11 @@ let modalImages = [];
 const PROMO_WA_NUMBER = '5522992497662'; // (22) 99249-7662 — WhatsApp para fechamento das promoções
 let currentPromo = null;
 let promoModalImages = [];
+const UPLOAD_BUCKET = 'envios-clientes';
+const MAX_UPLOAD_FILES = 10;
+const MAX_UPLOAD_SIZE = 50 * 1024 * 1024;
+let uploadSelectedFiles = [];
+let uploadInProgress = false;
 let promoModalCarouselIdx = 0;
 
 // ==================== HELPERS ====================
@@ -1767,6 +1898,7 @@ async function loadAllData() {
   renderAlerts();
   renderLinks();
   renderHistorico();
+  renderSentUploads();
   renderClientPage();
   await mkpLoad();
 }
@@ -2371,6 +2503,236 @@ function renderHistorico() {
   }).join('');
 }
 
+// ==================== ENVIO DE ARQUIVOS ====================
+function normalizeEnvios(raw) {
+  if (Array.isArray(raw)) return raw;
+  if (typeof raw === 'string' && raw.trim()) {
+    try { const parsed = JSON.parse(raw); return Array.isArray(parsed) ? parsed : []; } catch (_) {}
+  }
+  return [];
+}
+
+function formatBytes(bytes) {
+  const n = Number(bytes || 0);
+  if (n < 1024) return n + ' B';
+  if (n < 1024 * 1024) return (n / 1024).toFixed(1) + ' KB';
+  if (n < 1024 * 1024 * 1024) return (n / (1024 * 1024)).toFixed(1) + ' MB';
+  return (n / (1024 * 1024 * 1024)).toFixed(1) + ' GB';
+}
+
+function fileIconClass(file) {
+  const t = (file?.type || '').toLowerCase();
+  const n = (file?.name || '').toLowerCase();
+  if (t.startsWith('image/')) return 'fa-image';
+  if (t.startsWith('video/')) return 'fa-file-video';
+  if (t.includes('pdf') || n.endsWith('.pdf')) return 'fa-file-pdf';
+  if (/\.(doc|docx)$/i.test(n)) return 'fa-file-word';
+  if (/\.(xls|xlsx|csv)$/i.test(n)) return 'fa-file-excel';
+  if (/\.(zip|rar|7z)$/i.test(n)) return 'fa-file-zipper';
+  if (/\.(psd|ai)$/i.test(n)) return 'fa-palette';
+  return 'fa-file';
+}
+
+function setUploadStatus(message, type) {
+  const el = document.getElementById('uploadStatus');
+  if (!el) return;
+  if (!message) { el.textContent = ''; el.className = 'upload-status'; return; }
+  el.textContent = message;
+  el.className = 'upload-status ' + type;
+}
+
+function renderSelectedFiles() {
+  const list = document.getElementById('uploadFileList');
+  const count = document.getElementById('uploadCount');
+  if (!list || !count) return;
+
+  count.textContent = uploadSelectedFiles.length + (uploadSelectedFiles.length === 1 ? ' arquivo' : ' arquivos');
+  if (!uploadSelectedFiles.length) {
+    list.innerHTML = '<div class="upload-empty-list">Nenhum arquivo selecionado.</div>';
+    return;
+  }
+
+  list.innerHTML = uploadSelectedFiles.map((file, idx) => `
+    <div class="upload-file-item">
+      <div class="upload-file-icon"><i class="fas ${fileIconClass(file)}"></i></div>
+      <div class="upload-file-info">
+        <div class="upload-file-name" title="${esc(file.name)}">${esc(file.name)}</div>
+        <div class="upload-file-size">${formatBytes(file.size)}</div>
+      </div>
+      <button type="button" class="upload-file-remove" aria-label="Remover arquivo" onclick="removeSelectedUpload(${idx})" ${uploadInProgress ? 'disabled' : ''}>
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  `).join('');
+}
+
+function addSelectedUploads(fileList) {
+  if (uploadInProgress) return;
+  const incoming = Array.from(fileList || []);
+  if (!incoming.length) return;
+
+  const next = [...uploadSelectedFiles];
+  const existingKeys = new Set(next.map(f => `${f.name}::${f.size}::${f.lastModified}`));
+  const rejected = [];
+
+  for (const file of incoming) {
+    const key = `${file.name}::${file.size}::${file.lastModified}`;
+    if (existingKeys.has(key)) continue;
+    if (next.length >= MAX_UPLOAD_FILES) { rejected.push(`${file.name}: limite de ${MAX_UPLOAD_FILES} arquivos por envio.`); continue; }
+    if (file.size > MAX_UPLOAD_SIZE) { rejected.push(`${file.name}: excede 50 MB.`); continue; }
+    next.push(file);
+    existingKeys.add(key);
+  }
+
+  uploadSelectedFiles = next;
+  renderSelectedFiles();
+  if (rejected.length) setUploadStatus(rejected.slice(0, 3).join(' '), 'error');
+  else setUploadStatus('', '');
+}
+
+function removeSelectedUpload(index) {
+  if (uploadInProgress) return;
+  uploadSelectedFiles.splice(index, 1);
+  renderSelectedFiles();
+}
+
+function renderSentUploads() {
+  const wrap = document.getElementById('uploadSentWrap');
+  const list = document.getElementById('uploadSentList');
+  if (!wrap || !list || !currentClient) return;
+
+  const envios = normalizeEnvios(currentClient.envios)
+    .slice()
+    .sort((a,b) => new Date(b.enviado_em || 0) - new Date(a.enviado_em || 0))
+    .slice(0, 8);
+
+  if (!envios.length) { wrap.style.display = 'none'; list.innerHTML = ''; return; }
+  wrap.style.display = 'block';
+  list.innerHTML = envios.map(item => {
+    const when = item.enviado_em ? fmtDate(item.enviado_em) : 'Enviado';
+    return `
+      <div class="upload-sent-item">
+        <i class="fas fa-circle-check"></i>
+        <div class="upload-sent-main">
+          <div class="upload-sent-name" title="${esc(item.nome || 'Arquivo')}">${esc(item.nome || 'Arquivo')}</div>
+          <div class="upload-sent-meta">${esc(when)}${item.tamanho ? ' • ' + esc(formatBytes(item.tamanho)) : ''}</div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function openUploadModal() {
+  if (!currentClient) return;
+  uploadSelectedFiles = [];
+  uploadInProgress = false;
+  setUploadStatus('', '');
+  renderSelectedFiles();
+  renderSentUploads();
+  const btn = document.getElementById('uploadSendBtn');
+  if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar arquivos'; }
+  document.getElementById('uploadModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeUploadModal(force) {
+  if (uploadInProgress && !force) return;
+  document.getElementById('uploadModal').classList.remove('active');
+  document.body.style.overflow = '';
+  uploadSelectedFiles = [];
+  uploadInProgress = false;
+}
+
+function uploadModalOutside(e) {
+  if (e.target === document.getElementById('uploadModal')) closeUploadModal();
+}
+
+async function sendClientFiles() {
+  if (!currentClient || uploadInProgress) return;
+  if (!uploadSelectedFiles.length) {
+    setUploadStatus('Selecione pelo menos um arquivo antes de enviar.', 'error');
+    return;
+  }
+
+  const btn = document.getElementById('uploadSendBtn');
+  uploadInProgress = true;
+  if (btn) { btn.disabled = true; }
+  setUploadStatus('', '');
+
+  const uploaded = [];
+  try {
+    for (let i = 0; i < uploadSelectedFiles.length; i++) {
+      const file = uploadSelectedFiles[i];
+      if (btn) btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Enviando ${i + 1}/${uploadSelectedFiles.length}...`;
+
+      const safeName = file.name.replace(/[^a-zA-Z0-9._-]+/g, '_').replace(/^\.+/, '') || 'arquivo';
+      const token = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+      const path = `${currentClient.id}/${token}-${safeName}`;
+
+      const { error: uploadError } = await db.storage.from(UPLOAD_BUCKET).upload(path, file, {
+        upsert: false,
+        cacheControl: '3600',
+        contentType: file.type || 'application/octet-stream'
+      });
+      if (uploadError) throw new Error(`Não foi possível enviar "${file.name}": ${uploadError.message}`);
+
+      uploaded.push({
+        nome: file.name,
+        caminho: path,
+        tamanho: file.size,
+        tipo: file.type || 'application/octet-stream',
+        enviado_em: new Date().toISOString()
+      });
+    }
+
+    // Releitura para não apagar envios adicionados por outro processo entre dois envios.
+    const { data: latestClient, error: latestError } = await db.from(TABLES.clients)
+      .select('envios')
+      .eq('id', currentClient.id)
+      .maybeSingle();
+    if (latestError) throw new Error('Os arquivos foram enviados, mas não foi possível atualizar o registro de envios: ' + latestError.message);
+
+    const previous = normalizeEnvios(latestClient?.envios);
+    const nextEnvios = [...previous, ...uploaded];
+    const { data: updatedClient, error: updateError } = await db.from(TABLES.clients)
+      .update({ envios: nextEnvios })
+      .eq('id', currentClient.id)
+      .select('envios')
+      .maybeSingle();
+    if (updateError) throw new Error('Os arquivos foram enviados, mas não foi possível gravar a coluna envios: ' + updateError.message);
+
+    currentClient.envios = updatedClient?.envios || nextEnvios;
+    uploadSelectedFiles = [];
+    renderSelectedFiles();
+    renderSentUploads();
+    setUploadStatus(`${uploaded.length} ${uploaded.length === 1 ? 'arquivo enviado' : 'arquivos enviados'} com sucesso.`, 'success');
+  } catch (error) {
+    setUploadStatus(error?.message || 'Não foi possível concluir o envio.', 'error');
+  } finally {
+    uploadInProgress = false;
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar arquivos';
+    }
+    renderSelectedFiles();
+  }
+}
+
+const uploadInput = document.getElementById('uploadFileInput');
+const uploadDropzone = document.getElementById('uploadDropzone');
+if (uploadInput) uploadInput.addEventListener('change', function() {
+  addSelectedUploads(this.files);
+  this.value = '';
+});
+if (uploadDropzone) {
+  ['dragenter','dragover'].forEach(evt => uploadDropzone.addEventListener(evt, e => {
+    e.preventDefault(); e.stopPropagation(); uploadDropzone.classList.add('dragover');
+  }));
+  ['dragleave','drop'].forEach(evt => uploadDropzone.addEventListener(evt, e => {
+    e.preventDefault(); e.stopPropagation(); uploadDropzone.classList.remove('dragover');
+  }));
+  uploadDropzone.addEventListener('drop', e => addSelectedUploads(e.dataTransfer.files));
+}
+
 // ==================== LINKS ====================
 function renderLinks() {
   const el = document.getElementById('linkList');
@@ -2750,7 +3112,7 @@ function closeModal() {
 function modalOutside(e) {
   if(e.target === document.getElementById('prodModal')) closeModal();
 }
-document.addEventListener('keydown', e => { if(e.key==='Escape') { closeModal(); closeRulesModal(); closePromoModal(); } });
+document.addEventListener('keydown', e => { if(e.key==='Escape') { closeModal(); closeRulesModal(); closePromoModal(); closeUploadModal(); } });
 
 // ==================== MODAL: REGRAS GERAIS (FIDELIDADE) ====================
 function openRulesModal() {
