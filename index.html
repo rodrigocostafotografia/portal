@@ -339,15 +339,6 @@ body::before {
   background:rgba(76,175,130,0.1); color:var(--green);
   border:1px solid rgba(76,175,130,0.22);
 }
-.badge-tier {
-  display:inline-flex; align-items:center; gap:5px; padding:4px 10px;
-  border-radius:20px; font-size:11px; font-weight:600;
-}
-.tier-novo     { background:rgba(100,100,100,0.1);    color:var(--muted);   border:1px solid rgba(100,100,100,0.22); }
-.tier-fiel     { background:rgba(76,175,130,0.1);     color:var(--green);   border:1px solid rgba(76,175,130,0.22);  }
-.tier-especial { background:rgba(240,180,41,0.1);     color:var(--primary); border:1px solid rgba(240,180,41,0.25); }
-.tier-premium  { background:rgba(212,135,10,0.14);    color:#f0b429;        border:1px solid rgba(240,180,41,0.35); }
-
 /* ===== PROFILE HEADER: CAPA + FOTO DE PERFIL (estilo redes sociais) ===== */
 .profile-header { padding:0 !important; overflow:visible; margin-bottom:32px; }
 .profile-cover {
@@ -388,207 +379,7 @@ body::before {
 .profile-info-row { padding: 12px 28px 24px; }
 @media (max-width:640px) { .profile-info-row { padding:8px 16px 20px; } }
 
-/* ===== BADGE CATEGORIA — HEADER PROFILE (versão premium) ===== */
-.tier-badge-header {
-  padding: 6px 14px 6px 10px;
-  border-radius: 30px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  position: relative;
-  backdrop-filter: blur(12px);
-  transition: box-shadow .3s, transform .2s;
-}
-.tier-badge-header:hover { transform: translateY(-1px); }
-/* Novo Cliente */
-.tier-badge-header.tier-novo {
-  background: rgba(100,100,100,0.14);
-  border: 1px solid rgba(140,140,140,0.28);
-  color: #999;
-}
-/* Cliente Fiel */
-.tier-badge-header.tier-fiel {
-  background: rgba(76,175,130,0.12);
-  border: 1px solid rgba(76,175,130,0.32);
-  color: #4caf82;
-}
-/* Cliente Especial */
-.tier-badge-header.tier-especial {
-  background: rgba(240,180,41,0.12);
-  border: 1px solid rgba(240,180,41,0.38);
-  color: #f0b429;
-  box-shadow: 0 0 12px rgba(240,180,41,0.18);
-}
-/* Cliente Premium */
-.tier-badge-header.tier-premium {
-  background: linear-gradient(135deg, rgba(240,180,41,0.18), rgba(212,135,10,0.1));
-  border: 1px solid rgba(240,180,41,0.48);
-  color: #f0c842;
-  box-shadow: 0 0 16px rgba(240,180,41,0.28);
-}
-/* Ícone dentro do badge header */
-.tier-badge-header i {
-  font-size: 13px;
-  filter: drop-shadow(0 0 4px currentColor);
-}
 
-/* ===== PRÓXIMA CATEGORIA — busca tabela "clientes", coluna "info_upcategoria" ===== */
-/* Conteúdo escrito por sistema externo; o card só aparece quando a coluna tem valor. */
-.profile-upgrade {
-  display:flex; align-items:flex-start; gap:12px;
-  margin:16px 28px 24px; padding:13px 16px;
-  border-radius:12px;
-  background: linear-gradient(135deg, rgba(240,180,41,0.1), rgba(212,135,10,0.04));
-  border: 1px solid rgba(240,180,41,0.22);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
-  position:relative; overflow:hidden; cursor:pointer;
-  transition: border-color .25s, box-shadow .25s, transform .2s;
-}
-.profile-upgrade:hover {
-  border-color: rgba(240,180,41,0.4);
-  box-shadow: var(--glow-amber), inset 0 1px 0 rgba(255,255,255,0.05);
-  transform: translateY(-1px);
-}
-.profile-upgrade::before {
-  content:''; position:absolute; inset:0;
-  background: radial-gradient(circle at 0% 0%, rgba(240,180,41,0.16), transparent 65%);
-  pointer-events:none;
-}
-.profile-upgrade-icon {
-  flex-shrink:0; width:36px; height:36px; border-radius:10px;
-  display:flex; align-items:center; justify-content:center;
-  background: linear-gradient(135deg, var(--accent), var(--primary));
-  color:#0a0a0a; font-size:14px;
-  box-shadow: 0 3px 12px rgba(240,180,41,0.3);
-  position:relative; z-index:1;
-}
-.profile-upgrade-body { position:relative; z-index:1; min-width:0; flex:1; }
-.profile-upgrade-label {
-  display:block; font-size:10.5px; font-weight:700; text-transform:uppercase;
-  letter-spacing:.08em; color:var(--primary); margin-bottom:3px;
-  font-family:var(--font-body);
-}
-.profile-upgrade-text {
-  display:block; font-size:13.5px; color:var(--text); line-height:1.5;
-  font-family:var(--font-body); opacity:.92;
-}
-.profile-upgrade-chevron {
-  flex-shrink:0; align-self:center; color:var(--primary); font-size:12px;
-  opacity:.55; position:relative; z-index:1; transition: transform .2s;
-}
-.profile-upgrade:hover .profile-upgrade-chevron { transform:translateX(3px); opacity:1; }
-@media (max-width:640px) {
-  .profile-upgrade { margin:14px 16px 20px; padding:11px 14px; gap:10px; }
-  .profile-upgrade-icon { width:32px; height:32px; font-size:13px; }
-  .profile-upgrade-text { font-size:13px; }
-}
-
-/* ===== CLUBE DE FIDELIDADE ===== */
-.fidelidade-title {
-  font-family:var(--font-head); font-size:18px; font-weight:700;
-  display:flex; align-items:center; gap:10px; margin-bottom:4px;
-}
-.tier-tabs {
-  display:grid; grid-template-columns:repeat(4,1fr); gap:10px;
-  margin:18px 0 18px;
-}
-.tier-tab {
-  background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius:12px; padding:16px 8px; text-align:center;
-  cursor:pointer; transition: opacity .25s ease, filter .25s ease, box-shadow .25s ease, border-color .25s ease;
-  opacity:0.4; filter:grayscale(0.65);
-}
-.tier-tab:hover { opacity:0.7; filter:grayscale(0.3); }
-.tier-tab.is-mine { opacity:1; filter:none; }
-.tier-tab.is-selected:not(.is-mine) { opacity:0.8; filter:grayscale(0.15); }
-.tier-tab.is-selected { border-color: currentColor; }
-.tier-tab .tier-emoji { font-size:26px; display:block; margin-bottom:6px; line-height:1; }
-.tier-tab .tier-name { font-family:var(--font-head); font-size:12.5px; font-weight:700; color:var(--text); display:block; }
-.tier-tab.tier-novo.is-mine     { background: rgba(100,100,100,0.08); box-shadow:0 0 14px rgba(100,100,100,0.12); }
-.tier-tab.tier-fiel.is-mine     { background: rgba(76,175,130,0.08);  box-shadow: var(--glow-green); }
-.tier-tab.tier-especial.is-mine { background: rgba(240,180,41,0.07);  box-shadow: 0 0 14px rgba(240,180,41,0.14); }
-.tier-tab.tier-premium.is-mine  { background: rgba(240,180,41,0.1);   box-shadow: var(--glow-amber); }
-.tier-tagmine {
-  display:inline-flex; align-items:center; gap:4px; margin-top:6px;
-  font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:.04em;
-}
-.tier-tab.tier-novo .tier-tagmine     { color:var(--muted); }
-.tier-tab.tier-fiel .tier-tagmine     { color:var(--green); }
-.tier-tab.tier-especial .tier-tagmine { color:var(--primary); }
-.tier-tab.tier-premium .tier-tagmine  { color:#ffaa00; }
-
-.tier-detail {
-  background: rgba(0,0,0,0.22);
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius:14px; padding:20px; margin-bottom:18px;
-}
-.tier-detail-head { display:flex; align-items:center; gap:12px; margin-bottom:4px; }
-.tier-detail-emoji { font-size:28px; line-height:1; }
-.tier-detail-name { font-family:var(--font-head); font-size:17px; font-weight:700; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
-.tier-detail-req { color:var(--muted); font-size:13px; margin:8px 0 16px; display:flex; gap:7px; align-items:flex-start; }
-.tier-detail-benefits { list-style:none; display:flex; flex-direction:column; gap:9px; }
-.tier-detail-benefits li { display:flex; gap:9px; font-size:14px; line-height:1.5; align-items:flex-start; }
-.tier-detail-benefits li i { margin-top:3px; font-size:12px; flex-shrink:0; }
-
-.tier-rules-btn {
-  display:inline-flex; align-items:center; gap:8px;
-  margin-top:14px; padding:10px 16px;
-  background: rgba(255,255,255,0.03);
-  border:1px solid var(--border2);
-  border-radius:10px;
-  color:var(--muted); font-size:13px; font-weight:600;
-  font-family:var(--font-body); cursor:pointer;
-  transition: all .2s;
-}
-.tier-rules-btn:hover { color:var(--primary); border-color:rgba(240,180,41,0.3); background:rgba(240,180,41,0.06); }
-.tier-rules-btn i { font-size:12px; }
-
-.rules-modal-overlay {
-  position:fixed; inset:0; z-index:2000;
-  background:rgba(0,0,0,.75); backdrop-filter:blur(8px);
-  display:flex; align-items:center; justify-content:center;
-  padding:20px; opacity:0; pointer-events:none;
-  transition: opacity .25s;
-}
-.rules-modal-overlay.active { opacity:1; pointer-events:all; }
-.rules-modal-box {
-  background: rgba(15,15,15,0.96);
-  border:1px solid rgba(240,180,41,0.16);
-  border-radius:18px; width:100%; max-width:480px;
-  max-height:80vh; overflow-y:auto;
-  transform: scale(.96) translateY(16px);
-  transition: transform .25s;
-  position:relative;
-  backdrop-filter: blur(32px) saturate(160%);
-  box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,0.04);
-  padding:26px;
-}
-.rules-modal-overlay.active .rules-modal-box { transform:scale(1) translateY(0); }
-.rules-modal-close {
-  position:absolute; top:14px; right:14px; z-index:10;
-  width:32px; height:32px; border-radius:50%; border:none;
-  background:rgba(255,255,255,.06); color:var(--text);
-  cursor:pointer; display:flex; align-items:center; justify-content:center;
-  font-size:14px; transition: background .2s;
-}
-.rules-modal-close:hover { background:rgba(255,255,255,.12); }
-.rules-modal-title {
-  font-family:var(--font-head); font-size:17px; font-weight:700;
-  display:flex; align-items:center; gap:9px; margin-bottom:16px; padding-right:30px;
-  color:var(--text);
-}
-.rules-modal-box ul { padding-left:18px; display:flex; flex-direction:column; gap:9px; }
-.rules-modal-box li { font-size:13px; line-height:1.55; color:var(--muted); }
-
-@media (max-width: 640px) {
-  .tier-tabs { grid-template-columns:repeat(2,1fr); }
-}
-
-/* ===== HISTÓRICO DE SESSÕES ===== */
 #historicoSection {
   display: none;
 }
@@ -768,7 +559,7 @@ body::before {
   box-shadow: 0 0 8px rgba(0,229,255,0.5);
 }
 
-/* ===== ALERT CARDS — categoria colore o card ===== */
+/* ===== ALERT CARDS — tipo colore o card ===== */
 .item-card.alert-info {
   border-color: rgba(240,180,41,0.16);
   background: rgba(240,180,41,0.03);
@@ -1327,17 +1118,6 @@ body::before {
             <span><i class="fas fa-id-card"></i> <span id="profileCpf">—</span></span>
             <span><i class="fas fa-envelope"></i> <span id="profileEmail">—</span></span>
             <span class="badge-active"><i class="fas fa-circle" style="font-size:6px;"></i> <span id="profileStatus">Ativo</span></span>
-            <span class="badge-tier tier-badge-header tier-novo" id="profileCategoriaWrap"><i class="fas fa-user-plus" id="profileCategoriaIcon"></i> <span id="profileCategoria">—</span></span>
-          </div>
-
-          <!-- Campo: busca tabela "clientes", coluna "info_upcategoria" (preenchida por sistema externo) -->
-          <div class="profile-upgrade" id="profileUpgrade" style="display:none;" onclick="document.getElementById('fidelidadeCard').scrollIntoView({behavior:'smooth', block:'start'})" title="Ver categorias e benefícios do Clube de Fidelidade">
-            <div class="profile-upgrade-icon"><i class="fas fa-arrow-trend-up"></i></div>
-            <div class="profile-upgrade-body">
-              <span class="profile-upgrade-label">Para subir de categoria</span>
-              <span class="profile-upgrade-text" id="profileUpgradeText">—</span>
-            </div>
-            <i class="fas fa-chevron-right profile-upgrade-chevron"></i>
           </div>
         </div>
       </div>
@@ -1376,41 +1156,7 @@ body::before {
         <div class="promo-scroll" id="promoScroll"></div>
       </div>
 
-      <!-- === CLUBE DE FIDELIDADE === -->
-      <div class="glass-card" id="fidelidadeCard">
-        <h3 class="fidelidade-title"><i class="fas fa-gem" style="color:#ffaa00;"></i> Clube de Fidelidade</h3>
-        <p class="section-sub" style="margin:0 0 4px;">Toque em uma categoria para ver os benefícios. A sua fica em destaque.</p>
 
-        <div class="tier-tabs" id="tierTabs"></div>
-        <div class="tier-detail" id="tierDetail"></div>
-
-        <button type="button" class="tier-rules-btn" onclick="openRulesModal()">
-          <i class="fas fa-circle-info"></i> Regras Gerais
-        </button>
-      </div>
-
-      <div class="rules-modal-overlay" id="rulesModal" onclick="rulesModalOutside(event)">
-        <div class="rules-modal-box">
-          <button class="rules-modal-close" onclick="closeRulesModal()"><i class="fas fa-times"></i></button>
-          <div class="rules-modal-title"><i class="fas fa-gem" style="color:#ffaa00;"></i> Regras Gerais — Clube de Fidelidade</div>
-          <ul>
-           <li>O cliente sempre recebe apenas os benefícios do seu tier atual, sem acumular com tiers anteriores ou promoções.</li>
-           <li>Os descontos não são acumuláveis entre si ou com outras promoções, salvo quando informado.</li>
-           <li>Clientes que contratam um evento como primeiro contrato ingressam diretamente como Cliente Fiel.</li>
-           <li>Considera-se contrato apenas ensaios e eventos formalmente contratados e realizados.</li>
-           <li>Contratos cancelados não são contabilizados para progressão de tier.</li>
-           <li>A progressão de categoria é automática conforme o histórico de contratos.</li>
-           <li>12 meses sem contrato retorna à categoria anterior.</li>
-           <li>O ensaio cortesia anual do Premium exige ao menos 2 contratos realizados e não cancelados no ano.</li>
-           <li>O ensaio cortesia ocorre ao longo do mês de julho, em data a agendar com o estúdio.</li>
-           <li>O ensaio cortesia não agendado em julho não é transferível para outro mês.</li>
-           <li>O desconto se aplica a pacotes e produtos, exceto itens já em promoção.</li>
-          </ul>
-        </div>
-      </div>
-
-
-      <!-- === HISTÓRICO DE SESSÕES === -->
       <div class="glass-card" id="historicoSection">
         <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;">
           <h3 style="font-family:var(--font-head); font-size:17px; font-weight:700; display:flex; align-items:center; gap:10px; margin:0;">
@@ -1889,7 +1635,6 @@ async function loadAllData() {
   userData.links     = l.data || [];
   promoList          = pr.data || [];
   renderProfile();
-  renderTierClub();
   renderPromocoes();
   renderStats();
   renderTimeline();
@@ -1904,124 +1649,17 @@ async function loadAllData() {
 }
 
 
-const TIER_ORDER = ['Novo Cliente','Cliente Fiel','Cliente Especial','Cliente Premium'];
-const TIER_INFO = {
-  'Novo Cliente': {
-    emoji: '🌟', cls: 'tier-novo',
-    requisito: '1º contrato',
-    beneficios: [
-      '🎁 +5 fotos extras de cortesia em ensaios.',
-      '🎟️ Cupom de 10% de desconto de Boas-Vindas para o primeiro ensaio ou evento.',
-      '✨ Acesso ao Programa de Fidelidade.',
-      '📌 Consulte as regras gerais.'
-    ]
-  },
-  'Cliente Fiel': {
-    emoji: '🥈', cls: 'tier-fiel',
-    requisito: '2º contrato ou 1º contrato sendo evento',
-    beneficios: [
-      '📷 +5 fotos extras de cortesia em ensaios.',
-      '🌸 +10 fotos extras em ensaios sazonais (Páscoa, Mães, Pais, Natal e outros).',
-      '🎂 Ensaio Pré-Festa em estúdio com 10 fotos de cortesia.',
-      '📅 Acesso antecipado às datas dos ensaios sazonais.',
-      '💰 Acesso a preços promocionais exclusivos.',
-      '📌 Consulte as regras gerais.'
-    ]
-  },
-  'Cliente Especial': {
-    emoji: '🥇', cls: 'tier-especial',
-    requisito: '3º ao 5º contrato',
-    beneficios: [
-      '📷 +10 fotos extras de cortesia em ensaios.',
-      '🌸 +15 fotos extras em ensaios sazonais.',
-      '🎂 Ensaio Pré-Festa em estúdio com 15 fotos de cortesia.',
-      '⏰ Prioridade na escolha de datas e horários.',
-      '💰 Condições promocionais ainda mais vantajosas.',
-      '🖼️ 1 foto revelada 20x30 de cortesia por ano.',
-      '📌 Consulte as regras gerais.'
-    ]
-  },
-  'Cliente Premium': {
-    emoji: '💎', cls: 'tier-premium',
-    requisito: 'A partir do 6º contrato',
-    beneficios: [
-      '📷 +15 fotos extras de cortesia em ensaios.',
-      '🌸 +20 fotos extras em ensaios sazonais.',
-      '🎂 Ensaio Pré-Festa em estúdio com 25 fotos de cortesia.',
-      '🖼️ 10 fotos reveladas 10x15 em cada ensaio sazonal.',
-      '🎉 25 fotos reveladas 10x15 em coberturas de eventos.',
-      '👑 Prioridade máxima na agenda.',
-      '💰 As melhores condições promocionais disponíveis.',
-      '🎁 Brinde exclusivo em campanhas especiais.',
-      '📌 Consulte as regras gerais.'
-    ]
-  }
-};
-let tierSelected = null;
 
-function tierMinha() {
-  const cat = normalizarCategoria(currentClient && currentClient.categoria_cliente);
-  return TIER_INFO[cat] ? cat : 'Novo Cliente';
-}
-
-function renderTierClub() {
-  const minha = tierMinha();
-  if (!tierSelected || !TIER_INFO[tierSelected]) tierSelected = minha;
-
-  document.getElementById('tierTabs').innerHTML = TIER_ORDER.map(nome => {
-    const info = TIER_INFO[nome];
-    const isMine = nome === minha;
-    const isSel  = nome === tierSelected;
-    const cls = ['tier-tab', info.cls];
-    if (isMine) cls.push('is-mine');
-    if (isSel) cls.push('is-selected');
-    return `
-      <div class="${cls.join(' ')}" onclick="selectTierClub('${nome}')">
-        <span class="tier-emoji">${info.emoji}</span>
-        <span class="tier-name">${esc(nome)}</span>
-        ${isMine ? '<span class="tier-tagmine"><i class="fas fa-check-circle"></i> Você está aqui</span>' : ''}
-      </div>`;
-  }).join('');
-
-  renderTierDetail();
-}
-
-function selectTierClub(nome) {
-  tierSelected = nome;
-  renderTierClub();
-}
-
-function renderTierDetail() {
-  const minha = tierMinha();
-  const info = TIER_INFO[tierSelected];
-  const isMine = tierSelected === minha;
-  document.getElementById('tierDetail').innerHTML = `
-    <div class="tier-detail-head">
-      <span class="tier-detail-emoji">${info.emoji}</span>
-      <span class="tier-detail-name">${esc(tierSelected)}${isMine ? ` <span class="badge-tier ${info.cls}"><i class="fas fa-check-circle" style="font-size:10px;"></i> Sua categoria</span>` : ''}</span>
-    </div>
-    <div class="tier-detail-req"><i class="fas fa-flag-checkered" style="margin-top:2px;"></i><span>${esc(info.requisito)}</span></div>
-    <ul class="tier-detail-benefits">
-      ${info.beneficios.map(b => `<li><i class="fas fa-check" style="color:var(--green);"></i><span>${esc(b)}</span></li>`).join('')}
-    </ul>
-  `;
-}
-
-
-// Normaliza o nome da categoria para comparação:
-// O ADM pode salvar 'Fiel', 'Especial', 'Premium' (sem prefixo 'Cliente')
-// ou 'Cliente Fiel', 'Cliente Especial', 'Cliente Premium' (com prefixo).
-// Esta função padroniza tudo para o formato COM prefixo usado no Portal.
+// Normalização interna usada somente para aplicar promoções segmentadas.
+// A categoria nunca é renderizada no portal do cliente.
 function normalizarCategoria(cat) {
   if (!cat) return 'Novo Cliente';
-  const c = cat.trim();
-  // Já tem prefixo → retorna como está
+  const c = String(cat).trim();
   if (c.startsWith('Cliente ') || c === 'Novo Cliente') return c;
-  // Sem prefixo → adiciona
-  if (c === 'Fiel')    return 'Cliente Fiel';
+  if (c === 'Fiel') return 'Cliente Fiel';
   if (c === 'Especial') return 'Cliente Especial';
   if (c === 'Premium') return 'Cliente Premium';
-  return c; // fallback
+  return c;
 }
 
 function promoVisivelParaCliente(promo, cliente) {
@@ -2221,12 +1859,6 @@ function openPromoWA(id) {
 }
 
 // ==================== PROFILE ====================
-const TIER_CFG = {
-  'Novo Cliente':     { cls:'tier-novo',     icon:'fa-user-plus' },
-  'Cliente Fiel':     { cls:'tier-fiel',     icon:'fa-handshake' },
-  'Cliente Especial': { cls:'tier-especial', icon:'fa-star' },
-  'Cliente Premium':  { cls:'tier-premium',  icon:'fa-crown' }
-};
 function renderProfile() {
   const c = currentClient;
   document.getElementById('profileName').textContent = c.nome || '—';
@@ -2254,25 +1886,6 @@ function renderProfile() {
     coverImg.style.display = 'block';
   } else {
     coverImg.style.display = 'none';
-  }
-
-  const categoria = normalizarCategoria(c.categoria_cliente);
-  const tcfg = TIER_CFG[categoria] || TIER_CFG['Novo Cliente'];
-  document.getElementById('profileCategoriaWrap').className = 'badge-tier tier-badge-header ' + tcfg.cls;
-  document.getElementById('profileCategoriaIcon').className = 'fas ' + tcfg.icon;
-  document.getElementById('profileCategoria').textContent = categoria;
-
-  // Campo "Para subir de categoria" — tabela "clientes", coluna "info_upcategoria".
-  // Essa coluna e preenchida por um sistema externo; aqui apenas buscamos e exibimos o valor.
-  // Sem conteudo na coluna => o campo permanece oculto (graceful degradation).
-  const upgradeBox  = document.getElementById('profileUpgrade');
-  const upgradeText = document.getElementById('profileUpgradeText');
-  const infoCategoria = String(c.info_upcategoria || '').trim();
-  if (infoCategoria) {
-    upgradeText.textContent = infoCategoria;
-    upgradeBox.style.display = 'flex';
-  } else {
-    upgradeBox.style.display = 'none';
   }
 
   // Depoimento — tabela "clientes", coluna "depoimentos"
@@ -3112,22 +2725,9 @@ function closeModal() {
 function modalOutside(e) {
   if(e.target === document.getElementById('prodModal')) closeModal();
 }
-document.addEventListener('keydown', e => { if(e.key==='Escape') { closeModal(); closeRulesModal(); closePromoModal(); closeUploadModal(); } });
+document.addEventListener('keydown', e => { if(e.key==='Escape') { closeModal(); closePromoModal(); closeUploadModal(); } });
 
-// ==================== MODAL: REGRAS GERAIS (FIDELIDADE) ====================
-function openRulesModal() {
-  document.getElementById('rulesModal').classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-function closeRulesModal() {
-  document.getElementById('rulesModal').classList.remove('active');
-  document.body.style.overflow = '';
-}
-function rulesModalOutside(e) {
-  if(e.target === document.getElementById('rulesModal')) closeRulesModal();
-}
 
-// ==================== MODAL CAROUSEL ====================
 function buildModalCarousel(imgs) {
   const track = document.getElementById('modalCarouselTrack');
   const dots  = document.getElementById('modalDots');
